@@ -24,9 +24,23 @@ with open(nombreCSV + extensionArchivo) as csvfile:
             lastTime = float(row["TIME"])
             continue
 
-        if row["URL"] != "Libra" and row["VISTA"] != "grupo":
+        if row["URL"] != "Libra" and row["VISTA"] == "categoria":
             if row["SECCION"] == "Permisos":
-                datos.append([row["URL"], "getDatosReferencia", "Libra", time])
+                datos.append([row["URL"], "categoria", "Libra", time])
+                datos.append([row["URL"], row["VISTA"], row["SECCION"], row["TIME"]])
+                continue
+                    
+            if row["SECCION"] == "Renderizado":
+                row["TIME"] = float(row["TIME"]) - float(time)
+                datos.append([row["URL"], row["VISTA"], row["SECCION"], row["TIME"]])
+                time = 0
+                continue
+                
+            datos.append([row["URL"], row["VISTA"], row["SECCION"], row["TIME"]])
+            
+        if row["URL"] != "Libra" and row["VISTA"] == "articulo":
+            if row["SECCION"] == "Permisos":
+                datos.append([row["URL"], "articulo", "Libra", time])
                 datos.append([row["URL"], row["VISTA"], row["SECCION"], row["TIME"]])
                 continue
                     
